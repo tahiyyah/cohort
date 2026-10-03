@@ -1,0 +1,76 @@
+:root {
+  --panel: #1f2326;
+  --panel-raised: #262b2f;
+  --rail: #8b8f94;
+  --rail-dim: #5b5f63;
+  --ink: #f4efe3;
+  --font-structural: sans-serif;
+  --font-display: serif;
+  --font-mono: monospace;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --radius-sm: 3px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--panel); color: var(--ink); }
+
+.directory-header {
+  border-bottom: 1px solid var(--rail-dim);
+}
+
+.directory-header-inner {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  outline: 3px solid red;
+}
+
+.wordmark-slot {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  text-decoration: none;
+}
+
+.wordmark-code {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--rail);
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--ink);
+}
+
+.nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  outline: 3px solid lime;
+}
+
+.nav-tab {
+  font-family: var(--font-structural);
+  font-weight: 500;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+}

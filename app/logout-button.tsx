@@ -15,8 +15,13 @@ export default function LogoutButton() {
   }
 
   return (
-    <button onClick={handleLogout} disabled={loading}>
-      {loading ? "Logging out..." : "Log out"}
+    <button
+      onClick={handleLogout}
+      disabled={loading}
+      className="nav-tab"
+      style={{ cursor: loading ? "not-allowed" : "pointer" }}
+    >
+      {loading ? "Signing out…" : "Sign out"}
     </button>
   );
 }

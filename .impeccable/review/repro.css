@@ -128,9 +128,6 @@ a {
 
 /* visible seams: a panel section reads as a bolted physical plate */
 .seam {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
   position: relative;
   border-top: 1px solid var(--rail-dim);
   border-bottom: 1px solid var(--rail-dim);
@@ -174,17 +171,16 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2) var(--space-4);
+  outline: 3px solid red;
+}
+
+.nav-tabs {
+  outline: 3px solid lime;
 }
 
 @media (max-width: 640px) {
   .directory-header-inner {
-    flex-direction: column;
-    align-items: flex-start;
     padding: var(--space-3) var(--space-4);
-  }
-
-  .nav-tabs {
-    width: 100%;
   }
 }
 
@@ -321,21 +317,25 @@ a.listing:hover {
 
 @media (max-width: 640px) {
   .listing {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    box-sizing: border-box;
-    gap: var(--space-2);
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "code main"
+      "status status";
+    row-gap: var(--space-2);
     padding: var(--space-4);
   }
 
+  .listing-code {
+    grid-area: code;
+  }
+
   .listing-main {
-    width: 100%;
+    grid-area: main;
   }
 
   .listing-status {
-    justify-self: unset;
+    grid-area: status;
+    justify-self: start;
   }
 }
 
@@ -349,8 +349,6 @@ a.listing:hover {
 
 .listing-main {
   min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .listing-title {
@@ -367,8 +365,6 @@ a.listing:hover {
 .listing-meta {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  box-sizing: border-box;
   gap: var(--space-1) var(--space-3);
   font-size: 0.8rem;
   color: var(--ink-dim);
@@ -552,38 +548,13 @@ a.listing:hover {
 
 /* ---- headings & copy ---- */
 
-.hero-intro {
-  padding: 2rem 1.5rem 0;
-}
-
-.cta-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--space-3);
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 1.5rem 2rem;
-}
-
-@media (max-width: 500px) {
-  .cta-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
 .panel-kicker-free-heading {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
   font-family: var(--font-structural);
   font-weight: 600;
   font-size: 1.6rem;
   color: var(--ink);
   margin: 0 0 var(--space-5);
   letter-spacing: -0.01em;
-  overflow-wrap: break-word;
-  text-wrap: wrap;
 }
 
 .prose {
@@ -622,3 +593,5 @@ a.listing:hover {
     animation: none;
   }
 }
+
+.directory-header-inner { width: 100% !important; box-sizing: border-box !important; }

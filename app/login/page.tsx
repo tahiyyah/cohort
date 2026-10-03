@@ -12,8 +12,11 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <main>
-      <h1>Log in</h1>
+    <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "28rem" }}>
+      <h1 className="panel-kicker-free-heading">
+        Log in <span className="listing-code mono-data">№ 002</span>
+      </h1>
+
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -37,32 +40,41 @@ export default function LoginPage() {
           router.refresh();
         }}
       >
-        <label>
-          Email
+        <div className="field">
+          <label className="field-label" htmlFor="email">
+            Email
+          </label>
           <input
+            id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        <label>
-          Password
+        </div>
+        <div className="field">
+          <label className="field-label" htmlFor="password">
+            Password
+          </label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Log in"}
+        </div>
+
+        {error && <p className="form-error">{error}</p>}
+
+        <button type="submit" disabled={loading} className="tab-button tab-button--primary" style={{ width: "100%", marginTop: "var(--space-2)" }}>
+          {loading ? "Logging in…" : "Log in"}
         </button>
       </form>
-      <p>
-        No account? <Link href="/signup">Sign up</Link>
+
+      <p className="prose" style={{ marginTop: "var(--space-5)" }}>
+        No account? <Link href="/signup" style={{ color: "var(--amber)" }}>Sign up</Link>
       </p>
-    </main>
+    </section>
   );
 }

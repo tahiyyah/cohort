@@ -17,8 +17,15 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
 
   return (
-    <main>
-      <h1>Sign up</h1>
+    <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "32rem" }}>
+      <h1 className="panel-kicker-free-heading">
+        Sign up <span className="listing-code mono-data">№ 003</span>
+      </h1>
+      <p className="prose" style={{ marginTop: "calc(var(--space-5) * -1)", marginBottom: "var(--space-5)" }}>
+        Add your name to the directory. Your programme and cohort help other
+        apprentices recognize you at events.
+      </p>
+
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -55,67 +62,67 @@ export default function SignupPage() {
           router.refresh();
         }}
       >
-        <label>
-          Name
+        <div className="field">
+          <label className="field-label" htmlFor="name">
+            Name
+          </label>
+          <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="email">
+            Email
+          </label>
+          <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="password">
+            Password
+          </label>
           <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Email
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={6}
           />
-        </label>
-        <label>
-          Programme
-          <input
-            type="text"
-            value={programme}
-            onChange={(e) => setProgramme(e.target.value)}
-          />
-        </label>
-        <label>
-          Cohort
-          <input
-            type="text"
-            value={cohort}
-            onChange={(e) => setCohort(e.target.value)}
-          />
-        </label>
-        <label>
-          Location
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-        </label>
-        {error && <p className="error">{error}</p>}
-        {notice && <p className="notice">{notice}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? "Signing up..." : "Sign up"}
+        </div>
+
+        <div className="field-row">
+          <div className="field">
+            <label className="field-label" htmlFor="programme">
+              Programme
+            </label>
+            <input id="programme" type="text" placeholder="Software Engineering" value={programme} onChange={(e) => setProgramme(e.target.value)} />
+          </div>
+          <div className="field">
+            <label className="field-label" htmlFor="cohort">
+              Cohort
+            </label>
+            <input id="cohort" type="text" placeholder="Cohort 12" value={cohort} onChange={(e) => setCohort(e.target.value)} />
+          </div>
+        </div>
+
+        <div className="field">
+          <label className="field-label" htmlFor="location">
+            Location
+          </label>
+          <input id="location" type="text" placeholder="Peckham" value={location} onChange={(e) => setLocation(e.target.value)} />
+        </div>
+
+        {error && <p className="form-error">{error}</p>}
+        {notice && <p className="form-notice">{notice}</p>}
+
+        <button type="submit" disabled={loading} className="tab-button tab-button--primary" style={{ width: "100%", marginTop: "var(--space-2)" }}>
+          {loading ? "Signing up…" : "Sign up"}
         </button>
       </form>
-      <p>
-        Already have an account? <Link href="/login">Log in</Link>
+
+      <p className="prose" style={{ marginTop: "var(--space-5)" }}>
+        Already have an account? <Link href="/login" style={{ color: "var(--amber)" }}>Log in</Link>
       </p>
-    </main>
+    </section>
   );
 }
