@@ -12,6 +12,7 @@
 export interface Attendee {
   name: string;
   programme: string | null;
+  avatarUrl: string | null;
 }
 
 export interface EventListing {
@@ -28,6 +29,7 @@ export interface EventListing {
   isOnline: boolean;
   capacity: number | null;
   hostName: string;
+  hostAvatarUrl: string | null;
   attendees: Attendee[];
   attendeeCount: number;
   viewerIsGoing: boolean;

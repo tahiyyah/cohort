@@ -493,3 +493,11 @@ textarea {
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: var(--space-4);
 }
+
+.person-avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Matches the visual weight of .signature-mark beside it. */
+  border: 1px solid var(--rail-dim);
+}
