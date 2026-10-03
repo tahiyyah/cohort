@@ -1,11 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import GoogleButton from "../google-button";
 
-export default function LoginPage() {
+/** Only same-site relative paths, so ?next= cannot bounce people off-site. */
+function safeNext(raw: string | null): string {
+  if (!raw || !raw.startsWith("/") || raw.startsWith("//")) return "/";
+  return raw;
+}
+
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const next = safeNext(searchParams.get("next"));
+  // Set by /auth/callback when Google sign-in fails.
+  const callbackError = searchParams.get("error");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -16,6 +28,23 @@ export default function LoginPage() {
       <h1 className="panel-kicker-free-heading">
         Log in
       </h1>
+
+      <GoogleButton next={next} />
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-3)",
+          margin: "var(--space-5) 0",
+          color: "var(--ink-dim)",
+          fontSize: "0.8rem",
+        }}
+      >
+        <span aria-hidden="true" style={{ flex: 1, height: "1px", background: "var(--rail-dim)" }} />
+        or
+        <span aria-hidden="true" style={{ flex: 1, height: "1px", background: "var(--rail-dim)" }} />
+      </div>
 
       <form
         onSubmit={async (e) => {
@@ -36,7 +65,7 @@ export default function LoginPage() {
             return;
           }
 
-          router.push("/");
+          router.push(next);
           router.refresh();
         }}
       >
@@ -65,7 +94,7 @@ export default function LoginPage() {
           />
         </div>
 
-        {error && <p className="form-error">{error}</p>}
+        {(error || callbackError) && <p className="form-error">{error ?? callbackError}</p>}
 
         <button type="submit" disabled={loading} className="tab-button tab-button--primary" style={{ width: "100%", marginTop: "var(--space-2)" }}>
           {loading ? "Logging in…" : "Log in"}
@@ -76,5 +105,14 @@ export default function LoginPage() {
         No account? <Link href="/signup" style={{ color: "var(--amber)" }}>Sign up</Link>
       </p>
     </section>
+  );
+}
+
+export default function LoginPage() {
+  // useSearchParams needs a Suspense boundary above it.
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }

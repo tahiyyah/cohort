@@ -19,3 +19,6 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 .vercel
+
+# impeccable design-tool scratch (local only)
+.impeccable/

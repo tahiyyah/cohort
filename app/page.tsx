@@ -1,33 +1,26 @@
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { getUser } from "@/lib/auth";
+import { getProfile } from "@/lib/profiles";
+import { isEventLive } from "@/lib/events";
+import { listEvents } from "@/lib/events-server";
 import ListingRow from "./listing-row";
-import { MOCK_EVENTS, isEventLive } from "@/lib/mock-data";
 
 export default async function HomePage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getUser();
+  const profile = user ? await getProfile(user.id) : null;
 
-  let profileName: string | null = null;
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("name")
-      .eq("id", user.id)
-      .single();
-    profileName = profile?.name ?? null;
-  }
-
-  const live = MOCK_EVENTS.filter((event) => isEventLive(event));
-  const upcoming = MOCK_EVENTS.filter((event) => !isEventLive(event)).slice(0, 6);
+  // Events are readable by signed-in apprentices only, so the board stays
+  // empty for visitors - the copy above it does the selling instead.
+  const events = user ? await listEvents(user.id) : [];
+  const live = events.filter((event) => isEventLive(event));
+  const upcoming = events.filter((event) => !isEventLive(event)).slice(0, 6);
   const featured = [...live, ...upcoming];
 
   return (
     <>
       {user ? (
         <h1 className="panel-kicker-free-heading hero-intro">
-          Welcome back{profileName ? `, ${profileName}` : ""}. Here&apos;s what your cohort is up to.
+          Welcome back{profile?.name ? `, ${profile.name}` : ""}. Here&apos;s what your cohort is up to.
         </h1>
       ) : (
         <h1 className="panel-kicker-free-heading hero-intro">

@@ -1,91 +1,21 @@
-"use client";
+import { requireUser } from "@/lib/auth";
+import { listEvents } from "@/lib/events-server";
+import EventsBrowser from "./events-browser";
 
-import { useMemo, useState } from "react";
-import ListingRow from "../listing-row";
-import { MOCK_EVENTS } from "@/lib/mock-data";
-
-const ALL_TAGS = Array.from(new Set(MOCK_EVENTS.flatMap((event) => event.tags))).sort();
-
-type LocationFilter = "all" | "online" | "in-person";
-
-export default function EventsPage() {
-  const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
-  const [locationFilter, setLocationFilter] = useState<LocationFilter>("all");
-
-  function toggleTag(tag: string) {
-    setActiveTags((prev) => {
-      const next = new Set(prev);
-      if (next.has(tag)) {
-        next.delete(tag);
-      } else {
-        next.add(tag);
-      }
-      return next;
-    });
-  }
-
-  const filtered = useMemo(() => {
-    return MOCK_EVENTS.filter((event) => {
-      const tagMatch = activeTags.size === 0 || event.tags.some((tag) => activeTags.has(tag));
-      const locationMatch =
-        locationFilter === "all" ||
-        (locationFilter === "online" && event.isOnline) ||
-        (locationFilter === "in-person" && !event.isOnline);
-      return tagMatch && locationMatch;
-    });
-  }, [activeTags, locationFilter]);
+export default async function EventsPage() {
+  const user = await requireUser("/events");
+  const events = await listEvents(user.id);
 
   return (
     <>
       <h1 className="panel-kicker-free-heading">All events</h1>
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          gap: "var(--space-2)",
-          marginBottom: "var(--space-5)",
-        }}
-      >
-        {ALL_TAGS.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => toggleTag(tag)}
-            className="nav-tab"
-            data-active={activeTags.has(tag)}
-            type="button"
-          >
-            {tag}
-          </button>
-        ))}
-
-        <span
-          aria-hidden="true"
-          style={{ width: "1px", height: "1.2rem", background: "var(--rail-dim)", margin: "0 var(--space-2)" }}
-        />
-
-        {(["all", "in-person", "online"] as LocationFilter[]).map((option) => (
-          <button
-            key={option}
-            onClick={() => setLocationFilter(option)}
-            className="nav-tab"
-            data-active={locationFilter === option}
-            type="button"
-          >
-            {option === "all" ? "All locations" : option === "in-person" ? "In person" : "Online"}
-          </button>
-        ))}
-      </div>
-
-      {filtered.length > 0 ? (
-        <div className="event-grid">
-          {filtered.map((event, index) => (
-            <ListingRow key={event.id} event={event} index={index} />
-          ))}
-        </div>
+      {events.length > 0 ? (
+        <EventsBrowser events={events} />
       ) : (
-        <p className="prose">No listings match those filters. Clear a tag or try another location.</p>
+        <p className="prose" style={{ padding: "var(--space-6) var(--space-5)" }}>
+          No events on the board yet. Be the first to host one.
+        </p>
       )}
     </>
   );

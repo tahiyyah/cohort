@@ -20,7 +20,7 @@ export async function createClient() {
           }[]
         ) {
           // Route Handlers can mutate cookies; Server Components cannot and
-          // will throw here, which is fine as long as middleware.ts is also
+          // will throw here, which is fine as long as proxy.ts is also
           // refreshing the session on every request.
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
