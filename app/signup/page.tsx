@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import GoogleButton from "../google-button";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -25,6 +26,23 @@ export default function SignupPage() {
         Add your name to the directory. Your programme and cohort help other
         apprentices recognize you at events.
       </p>
+
+      <GoogleButton next="/profile" label="Sign up with Google" />
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-3)",
+          margin: "var(--space-5) 0",
+          color: "var(--ink-dim)",
+          fontSize: "0.8rem",
+        }}
+      >
+        <span aria-hidden="true" style={{ flex: 1, height: "1px", background: "var(--rail-dim)" }} />
+        or
+        <span aria-hidden="true" style={{ flex: 1, height: "1px", background: "var(--rail-dim)" }} />
+      </div>
 
       <form
         onSubmit={async (e) => {

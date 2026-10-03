@@ -1,18 +1,18 @@
 import Link from "next/link";
-import { formatEventWhen, isEventLive, type MockEvent } from "@/lib/mock-data";
+import { formatEventWhen, isEventLive, type EventListing } from "@/lib/events";
 
 export default function ListingRow({
   event,
   index = 0,
 }: {
-  event: MockEvent;
+  event: EventListing;
   index?: number;
 }) {
   const live = isEventLive(event);
 
   return (
     <Link
-      href={`/events/${event.id}`}
+      href={`/events/${event.href}`}
       className="listing"
       style={{ animationDelay: `${index * 55}ms` }}
     >

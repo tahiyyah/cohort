@@ -2,11 +2,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SignatureMark from "../../signature-mark";
 import RsvpButton from "../rsvp-button";
-import { APPRENTICE_POOL, formatEventWhen, getMockEvent, isEventLive } from "@/lib/mock-data";
-
-function programmeFor(name: string): string | null {
-  return APPRENTICE_POOL.find((a) => a.name === name)?.programme ?? null;
-}
+import { requireUser } from "@/lib/auth";
+import { formatEventWhen, isEventLive } from "@/lib/events";
+import { getEvent } from "@/lib/events-server";
 
 export default async function EventDetailPage({
   params,
@@ -14,7 +12,8 @@ export default async function EventDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const event = getMockEvent(id);
+  const user = await requireUser(`/events/${id}`);
+  const event = await getEvent(id, user.id);
 
   if (!event) {
     notFound();
@@ -71,7 +70,7 @@ export default async function EventDetailPage({
           <div>
             <dt className="field-label">Capacity</dt>
             <dd className="mono-data" style={{ margin: "var(--space-1) 0 0", color: "var(--ink)" }}>
-              {event.capacity} apprentices
+              {event.capacity ? `${event.capacity} apprentices` : "No limit"}
             </dd>
           </div>
           <div>
@@ -83,27 +82,38 @@ export default async function EventDetailPage({
           </div>
         </dl>
 
-        <RsvpButton capacity={event.capacity} baseCount={event.attendeeNames.length} />
+        <RsvpButton
+          eventHref={event.href}
+          capacity={event.capacity}
+          baseCount={event.attendeeCount}
+          initiallyGoing={event.viewerIsGoing}
+        />
       </div>
 
       <section style={{ marginTop: "var(--space-7)" }}>
         <h2 className="panel-kicker-free-heading">
-          Who&apos;s going ({event.attendeeNames.length})
+          Who&apos;s going ({event.attendeeCount})
         </h2>
         <div className="seam" style={{ padding: "var(--space-5)" }}>
-          <div className="attendee-grid">
-            {event.attendeeNames.map((name) => (
-              <span key={name} className="signature">
-                <SignatureMark name={name} />
-                <span>
-                  <span className="signature-name" style={{ display: "block" }}>
-                    {name}
+          {event.attendees.length > 0 ? (
+            <div className="attendee-grid">
+              {event.attendees.map((attendee) => (
+                <span key={attendee.name} className="signature">
+                  <SignatureMark name={attendee.name} />
+                  <span>
+                    <span className="signature-name" style={{ display: "block" }}>
+                      {attendee.name}
+                    </span>
+                    <span className="signature-role">{attendee.programme}</span>
                   </span>
-                  <span className="signature-role">{programmeFor(name)}</span>
                 </span>
-              </span>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <p className="prose" style={{ margin: 0 }}>
+              Nobody has RSVPed yet. Be the first.
+            </p>
+          )}
         </div>
       </section>
     </>
