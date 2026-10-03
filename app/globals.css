@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Warm, approachable palette — deliberately not SaaS blue/purple. */
+  --bg: #fdf8f3;
+  --surface: #ffffff;
+  --border: #eadfd4;
+  --ink: #2b2118;
+  --muted: #7a6a5c;
+  --accent: #d9643a;
+  --accent-ink: #ffffff;
+  --tag: #2f6f5e;
+
+  --radius: 16px;
+  --space: 1rem;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+}
+
+/* Shared layout shell so every page lines up the same way. */
+.page {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
