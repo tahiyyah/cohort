@@ -48,3 +48,10 @@ rsvps(user_id→users, event_id→events, status, created_at)
 I can scaffold the repo with the stack, schema, auth gating, base pages and seed data so all four SDEs can start building straight away. Tell me:
 1. How long the hackathon is
 2. Which stack you want (Supabase/Next.js, AWS Amplify, or something your team al
+
+
+-------------------------
+Tool choices:
+Piece	       Choice	            Why
+Shared data	Supabase	     Free hosted Postgres with a REST API. You create a table in their web UI and call it from React. No server code, no deploy. ~15 min.
+Hosting	Vercel	            Connect the GitHub repo, it builds and gives you a public URL. Auto-redeploys on push.
