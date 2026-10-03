@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import SignatureMark from "../../signature-mark";
+import PersonMark from "../../person-mark";
 import RsvpButton from "../rsvp-button";
 import { requireUser } from "@/lib/auth";
 import { formatEventWhen, isEventLive } from "@/lib/events";
@@ -76,7 +76,7 @@ export default async function EventDetailPage({
           <div>
             <dt className="field-label">Hosted by</dt>
             <dd style={{ margin: "var(--space-1) 0 0" }} className="signature">
-              <SignatureMark name={event.hostName} />
+              <PersonMark name={event.hostName} avatarUrl={event.hostAvatarUrl} />
               <span className="signature-name">{event.hostName}</span>
             </dd>
           </div>
@@ -99,7 +99,7 @@ export default async function EventDetailPage({
             <div className="attendee-grid">
               {event.attendees.map((attendee) => (
                 <span key={attendee.name} className="signature">
-                  <SignatureMark name={attendee.name} />
+                  <PersonMark name={attendee.name} avatarUrl={attendee.avatarUrl} />
                   <span>
                     <span className="signature-name" style={{ display: "block" }}>
                       {attendee.name}

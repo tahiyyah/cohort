@@ -622,3 +622,11 @@ a.listing:hover {
     animation: none;
   }
 }
+
+.person-avatar {
+  flex-shrink: 0;
+  border-radius: 50%;
+  object-fit: cover;
+  /* Matches the visual weight of .signature-mark beside it. */
+  border: 1px solid var(--rail-dim);
+}

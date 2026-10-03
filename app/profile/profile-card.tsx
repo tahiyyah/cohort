@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import SignatureMark from "../signature-mark";
+import PersonMark from "../person-mark";
 import type { Profile } from "@/lib/profiles";
 
 /** Nullable DB columns, flattened to strings for the form inputs. */
@@ -27,7 +27,13 @@ function toDraft(profile: Profile): Draft {
 export default function ProfileCard({ initialProfile }: { initialProfile: Profile }) {
   const router = useRouter();
   const [profile, setProfile] = useState(initialProfile);
-  const [editing, setEditing] = useState(false);
+  // Google sign-in fills in a name and photo but nothing else, and the name
+  // it supplies is often a handle rather than something a cohort-mate would
+  // recognise. Open straight into the form so the first thing a new arrival
+  // sees is the gap, not a half-empty card.
+  const [editing, setEditing] = useState(
+    !initialProfile.programme && !initialProfile.cohort
+  );
   const [draft, setDraft] = useState<Draft>(toDraft(initialProfile));
   const [interestsInput, setInterestsInput] = useState(initialProfile.interests.join(", "));
   const [busy, setBusy] = useState(false);
@@ -76,12 +82,23 @@ export default function ProfileCard({ initialProfile }: { initialProfile: Profil
     }
   }
 
+  const incomplete = !profile.programme && !profile.cohort;
+
   if (editing) {
     return (
       <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "32rem" }}>
         <h1 className="panel-kicker-free-heading">
-          Edit your directory entry <span className="listing-code mono-data">№ 00A</span>
+          {incomplete ? "Finish your directory entry" : "Edit your directory entry"}{" "}
+          <span className="listing-code mono-data">№ 00A</span>
         </h1>
+
+        {incomplete && (
+          <p className="form-notice">
+            Check your name reads the way other apprentices would know you,
+            then add your programme and cohort — that is what people scan
+            for on an attendee list.
+          </p>
+        )}
 
         <form onSubmit={save}>
           <div className="field">
@@ -166,14 +183,16 @@ export default function ProfileCard({ initialProfile }: { initialProfile: Profil
           )}
 
           <div style={{ display: "flex", gap: "var(--space-3)" }}>
-            <button
-              type="button"
-              className="tab-button"
-              onClick={() => setEditing(false)}
-              disabled={busy}
-            >
-              Cancel
-            </button>
+            {!incomplete && (
+              <button
+                type="button"
+                className="tab-button"
+                onClick={() => setEditing(false)}
+                disabled={busy}
+              >
+                Cancel
+              </button>
+            )}
             <button type="submit" className="tab-button tab-button--primary" disabled={busy}>
               {busy ? "Saving…" : "Save"}
             </button>
@@ -183,14 +202,13 @@ export default function ProfileCard({ initialProfile }: { initialProfile: Profil
     );
   }
 
-  // A Google sign-up arrives with only a name, so these can be empty.
   const details = [profile.programme, profile.cohort, profile.location].filter(Boolean);
 
   return (
     <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "36rem" }}>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: "var(--space-4)" }}>
         <div className="signature">
-          <SignatureMark name={profile.name} />
+          <PersonMark name={profile.name} avatarUrl={profile.avatarUrl} />
           <div>
             <h1 className="panel-kicker-free-heading" style={{ marginBottom: "var(--space-1)" }}>
               {profile.name}

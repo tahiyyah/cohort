@@ -13,8 +13,8 @@ import type { EventInput, EventListing } from "@/lib/events";
 const EVENT_SELECT = `
   id, slug, code, title, description, starts_at, ends_at, location,
   is_online, capacity, tags,
-  host:profiles!events_host_id_fkey ( name ),
-  rsvps ( user_id, status, profile:profiles ( name, programme ) )
+  host:profiles!events_host_id_fkey ( name, avatar_url ),
+  rsvps ( user_id, status, profile:profiles ( name, programme, avatar_url ) )
 `;
 
 interface EventRow {
@@ -29,11 +29,15 @@ interface EventRow {
   is_online: boolean;
   capacity: number | null;
   tags: string[] | null;
-  host: { name: string } | null;
+  host: { name: string; avatar_url: string | null } | null;
   rsvps: {
     user_id: string;
     status: string;
-    profile: { name: string; programme: string | null } | null;
+    profile: {
+      name: string;
+      programme: string | null;
+      avatar_url: string | null;
+    } | null;
   }[];
 }
 
@@ -53,9 +57,11 @@ function toListing(row: EventRow, viewerId: string | null): EventListing {
     isOnline: row.is_online,
     capacity: row.capacity,
     hostName: row.host?.name ?? "Unknown host",
+    hostAvatarUrl: row.host?.avatar_url ?? null,
     attendees: going.map((r) => ({
       name: r.profile?.name ?? "An apprentice",
       programme: r.profile?.programme ?? null,
+      avatarUrl: r.profile?.avatar_url ?? null,
     })),
     attendeeCount: going.length,
     viewerIsGoing: viewerId ? going.some((r) => r.user_id === viewerId) : false,
