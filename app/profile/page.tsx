@@ -40,7 +40,7 @@ export default function ProfilePage() {
     return (
       <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "32rem" }}>
         <h1 className="panel-kicker-free-heading">
-          Edit your directory entry <span className="listing-code mono-data">№ 00A</span>
+          Edit your profile
         </h1>
 
         <form

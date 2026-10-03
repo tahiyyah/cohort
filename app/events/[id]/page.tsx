@@ -30,7 +30,7 @@ export default async function EventDetailPage({
 
       <div className="seam" style={{ padding: "var(--space-6) var(--space-5)" }}>
         <h1 className="panel-kicker-free-heading">
-          {event.title} <span className="listing-code mono-data">{event.code}</span>
+          {event.title}
         </h1>
 
         <div className="listing-meta" style={{ marginBottom: "var(--space-5)" }}>

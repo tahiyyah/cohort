@@ -14,7 +14,7 @@ export default function LoginPage() {
   return (
     <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "28rem" }}>
       <h1 className="panel-kicker-free-heading">
-        Log in <span className="listing-code mono-data">№ 002</span>
+        Log in
       </h1>
 
       <form

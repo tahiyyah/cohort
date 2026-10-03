@@ -78,17 +78,15 @@ export default function EventsPage() {
         ))}
       </div>
 
-      <div className="seam">
-        {filtered.length > 0 ? (
-          filtered.map((event, index) => (
+      {filtered.length > 0 ? (
+        <div className="event-grid">
+          {filtered.map((event, index) => (
             <ListingRow key={event.id} event={event} index={index} />
-          ))
-        ) : (
-          <p className="prose" style={{ padding: "var(--space-6) var(--space-5)" }}>
-            No listings match those filters. Clear a tag or try another location.
-          </p>
-        )}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <p className="prose">No listings match those filters. Clear a tag or try another location.</p>
+      )}
     </>
   );
 }

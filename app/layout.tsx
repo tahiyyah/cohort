@@ -1,50 +1,29 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import {
-  Fraunces,
-  IBM_Plex_Sans,
-  IBM_Plex_Sans_Condensed,
-  IBM_Plex_Mono,
-} from "next/font/google";
+import { Poppins, Inter } from "next/font/google";
 import DirectoryHeader from "./directory-header";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  weight: ["500", "600"],
-  style: ["normal", "italic"],
-});
-
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  variable: "--font-plex-sans",
-  weight: ["400", "500"],
-});
-
-const plexSansCondensed = IBM_Plex_Sans_Condensed({
-  subsets: ["latin"],
-  variable: "--font-plex-condensed",
+  variable: "--font-poppins",
   weight: ["500", "600", "700"],
 });
 
-const plexMono = IBM_Plex_Mono({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-plex-mono",
-  weight: ["400", "500"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
   title: "Cohort",
-  description: "The apprentice-only events directory.",
+  description: "Events by apprentices, for apprentices.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${plexSans.variable} ${plexSansCondensed.variable} ${plexMono.variable}`}
-    >
+    <html lang="en" className={`${poppins.variable} ${inter.variable}`}>
       <body>
         <div className="board">
           <DirectoryHeader />

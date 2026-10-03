@@ -30,7 +30,7 @@ export default function CreateEventPage() {
   return (
     <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "36rem" }}>
       <h1 className="panel-kicker-free-heading">
-        Host an event <span className="listing-code mono-data">№ 0XX</span>
+        Host an event
       </h1>
 
       <form

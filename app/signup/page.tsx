@@ -19,7 +19,7 @@ export default function SignupPage() {
   return (
     <section className="seam" style={{ padding: "var(--space-6) var(--space-5)", maxWidth: "32rem" }}>
       <h1 className="panel-kicker-free-heading">
-        Sign up <span className="listing-code mono-data">№ 003</span>
+        Sign up
       </h1>
       <p className="prose" style={{ marginTop: "calc(var(--space-5) * -1)", marginBottom: "var(--space-5)" }}>
         Add your name to the directory. Your programme and cohort help other
