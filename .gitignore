@@ -6,9 +6,9 @@ node_modules/
 out/
 
 # env files (never commit real secrets)
-.env
-.env.local
-.env.*.local
+# .env
+# .env.local
+# .env.*.local
 
 # misc
 .DS_Store
