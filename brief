@@ -55,3 +55,6 @@ Tool choices:
 Piece	       Choice	            Why
 Shared data	Supabase	     Free hosted Postgres with a REST API. You create a table in their web UI and call it from React. No server code, no deploy. ~15 min.
 Hosting	Vercel	            Connect the GitHub repo, it builds and gives you a public URL. Auto-redeploys on push.
+
+
+password: 5rRqU2NwlPphaGDp
