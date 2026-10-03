@@ -18,38 +18,51 @@ export default async function HomePage() {
 
   return (
     <>
-      {user ? (
-        <h1 className="panel-kicker-free-heading hero-intro">
-          Welcome back{profile?.name ? `, ${profile.name}` : ""}. Here&apos;s what your cohort is up to.
-        </h1>
-      ) : (
-        <h1 className="panel-kicker-free-heading hero-intro">
-          Find out what&apos;s happening across the apprenticeship right now.
-          Apprentices only — sign up with your cohort to see who&apos;s attending.
-        </h1>
-      )}
-
-      <div className="cta-row">
+      <section className="hero">
         {user ? (
           <>
-            <Link href="/profile" className="tab-button">
-              My profile
-            </Link>
-            <Link href="/events" className="tab-button tab-button--primary">
-              Browse events
-            </Link>
+            <h1 className="hero-title">
+              Your cohort is <em>out there</em>{profile?.name ? `, ${profile.name}` : ""}.
+            </h1>
+            <p className="hero-sub">
+              Talks, study sessions, socials and side-project nights — everything
+              apprentices are putting on this week, in one place.
+            </p>
           </>
         ) : (
           <>
-            <Link href="/login" className="tab-button">
-              Log in
-            </Link>
-            <Link href="/signup" className="tab-button tab-button--primary">
-              Sign up
-            </Link>
+            <h1 className="hero-title">
+              Events by apprentices, <em>for apprentices</em>.
+            </h1>
+            <p className="hero-sub">
+              See what&apos;s happening across the apprenticeship right now.
+              Apprentices only — sign up with your cohort to see who&apos;s attending.
+            </p>
           </>
         )}
-      </div>
+
+        <div className="cta-row">
+          {user ? (
+            <>
+              <Link href="/events" className="tab-button tab-button--primary">
+                Browse events
+              </Link>
+              <Link href="/profile" className="tab-button">
+                My profile
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/signup" className="tab-button tab-button--primary">
+                Sign up
+              </Link>
+              <Link href="/login" className="tab-button">
+                Log in
+              </Link>
+            </>
+          )}
+        </div>
+      </section>
 
       <div className="event-grid">
         {featured.map((event, index) => (

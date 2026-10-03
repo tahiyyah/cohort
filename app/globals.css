@@ -37,6 +37,10 @@
   --radius-sm: 10px;
   --radius-md: 18px;
 
+  /* Single gutter used by the header and main column so full-bleed
+     sections can cancel it out with a negative margin. */
+  --shell-pad: clamp(1rem, 3vw, 2.5rem);
+
   color-scheme: light;
 }
 
@@ -91,25 +95,22 @@ a {
   min-width: 0;
 }
 
+/* The feed runs the full width of the window - only the shell gutter
+   keeps cards off the edge. */
 .board-main {
   flex: 1;
   width: 100%;
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: var(--space-7) var(--space-5) var(--space-9);
-}
-
-@media (max-width: 640px) {
-  .board-main {
-    padding: var(--space-6) var(--space-4) var(--space-8);
-  }
+  margin: 0;
+  padding: var(--space-6) var(--shell-pad) var(--space-9);
 }
 
 /* ---- content panel: one big rounded card, used by forms & detail pages ---- */
 
+/* Reading-width cap: forms and detail copy stay legible even though the
+   main column itself is now full width. */
 .seam {
   width: 100%;
-  max-width: 100%;
+  max-width: 64rem;
   box-sizing: border-box;
   background: var(--panel-raised);
   border: 1px solid var(--rail-dim);
@@ -136,9 +137,7 @@ a {
 }
 
 .directory-header-inner {
-  max-width: 72rem;
-  margin: 0 auto;
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-4) var(--shell-pad);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -150,7 +149,7 @@ a {
   .directory-header-inner {
     flex-direction: column;
     align-items: flex-start;
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-3) var(--shell-pad);
   }
 
   .nav-tabs {
@@ -389,17 +388,47 @@ a {
   color: var(--ink);
 }
 
-.hero-intro {
-  font-size: clamp(1.6rem, 4vw, 2.4rem);
-  max-width: 42rem;
-  margin-bottom: var(--space-5);
+/* ---- hero: full-bleed banner, cancels the shell gutter ---- */
+
+.hero {
+  margin: calc(-1 * var(--space-6)) calc(-1 * var(--shell-pad)) var(--space-7);
+  padding: clamp(var(--space-6), 6vw, var(--space-8)) var(--shell-pad);
+  background: linear-gradient(150deg, var(--panel-sunken) 0%, var(--panel) 68%);
+  border-bottom: 1px solid var(--rail-dim);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6.5vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: var(--amber);
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: var(--ink-dim);
+  max-width: 44rem;
+  margin: var(--space-4) 0 0;
 }
 
 .cta-row {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  margin-bottom: var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.hero .cta-row {
+  margin-bottom: 0;
 }
 
 .prose {
